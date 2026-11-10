@@ -48,7 +48,7 @@
         <span>Reel<span class="brand-highlight">Save</span></span>
     </a>
 
-    <!-- Top Right Quick Icons (Just like FastVideoSave) -->
+    <!-- Top Right Quick Icons -->
     <div class="nav-icons-bar">
         <button class="nav-icon-circle active" onclick="switchCategory('reels')" title="Reels">▶</button>
         <button class="nav-icon-circle" onclick="switchCategory('audio')" title="Audio MP3">🎵</button>
@@ -69,7 +69,7 @@
     <!-- HERO -->
     <section class="hero">
 
-        <!-- 3 MAIN CATEGORY PILL TABS (BIG & PROMINENT) -->
+        <!-- 3 MAIN PROMINENT TABS -->
         <div class="category-tabs-container">
             <button class="tab-chip active" id="tabReels" onclick="switchCategory('reels')">
                 <span class="chip-icon">▶</span> Reels Downloader
@@ -133,7 +133,7 @@
 
             <div id="message" class="message" role="status" aria-live="polite"></div>
 
-            <!-- RESULT CARD -->
+            <!-- RESULT CARD WITH VIDEO & MP3 -->
             <div id="resultContainer" class="result-modern-card hidden">
                 <div class="video-wrapper">
                     <video id="videoPreview" controls playsinline></video>
@@ -175,7 +175,7 @@
     </section>
 
 
-    <!-- STEPS TO DOWNLOAD (SEO SECTION) -->
+    <!-- STEPS TO DOWNLOAD -->
     <section class="how-section">
         <div class="section-intro">
             <span class="section-label" id="stepsLabel">QUICK & EASY</span>
@@ -198,6 +198,46 @@
                 <h3>Tap Download</h3>
                 <p>Choose Video or MP3 Audio to save it directly to your gallery.</p>
             </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="faq-section" id="faq">
+        <div class="section-intro">
+            <span class="section-label">NEED HELP?</span>
+            <h2>Frequently Asked Questions</h2>
+        </div>
+
+        <div class="faq-list">
+            <article class="faq-card">
+                <button class="faq-toggle" aria-expanded="false">
+                    Can I extract audio or music from a Reel?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes! ReelSave automatically extracts the audio track and gives you a dedicated "DOWNLOAD AUDIO (MP3)" button for every Reel.</p>
+                </div>
+            </article>
+
+            <article class="faq-card">
+                <button class="faq-toggle" aria-expanded="false">
+                    Is ReelSave free to use?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>ReelSave is 100% free with unlimited downloads and no hidden subscription fees.</p>
+                </div>
+            </article>
+
+            <article class="faq-card">
+                <button class="faq-toggle" aria-expanded="false">
+                    Where are downloaded videos saved?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>All downloaded files are directly saved to your device's "Downloads" folder and appear in your phone's Gallery.</p>
+                </div>
+            </article>
         </div>
     </section>
 
