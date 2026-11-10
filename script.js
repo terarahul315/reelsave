@@ -44,6 +44,50 @@ function setMode(mode) {
         input.placeholder = "Paste Instagram Reel link here...";
     }
 }
+// Dynamic Category Switcher (Reels, Audio, Story)
+function switchCategory(type) {
+    const heroTitle = document.getElementById("heroTitle");
+    const heroSubtitle = document.getElementById("heroSubtitle");
+    const cardTitle = document.getElementById("cardTitle");
+    const cardSubtitle = document.getElementById("cardSubtitle");
+    const urlInput = document.getElementById("urlInput");
+    const headingIcon = document.getElementById("headingIcon");
+    const stepsHeading = document.getElementById("stepsHeading");
+
+    // Reset tab active states
+    document.querySelectorAll(".tab-chip").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".nav-icon-circle").forEach(i => i.classList.remove("active"));
+
+    if (type === 'audio') {
+        document.getElementById("tabAudio").classList.add("active");
+        heroTitle.innerHTML = 'Instagram Audio <br><span class="gradient-text">Downloader (MP3)</span>';
+        heroSubtitle.textContent = "Turn any Instagram reel into a high quality MP3 audio. Paste the link and save trending songs and voice-overs offline.";
+        cardTitle.textContent = "Paste Reel Link for Audio";
+        cardSubtitle.textContent = "Extract and download background music in 320kbps.";
+        urlInput.placeholder = "Paste Reel link to extract MP3...";
+        headingIcon.textContent = "🎵";
+        stepsHeading.textContent = "Steps to Download Instagram Audio";
+    } else if (type === 'story') {
+        document.getElementById("tabStory").classList.add("active");
+        heroTitle.innerHTML = 'Instagram Story & Photo <br><span class="gradient-text">Downloader HD</span>';
+        heroSubtitle.textContent = "Download Instagram stories, highlights, and full-resolution photos directly to your device without watermark.";
+        cardTitle.textContent = "Paste Story or Photo Link";
+        cardSubtitle.textContent = "Enter public story or post URL below.";
+        urlInput.placeholder = "Paste Story or Photo link here...";
+        headingIcon.textContent = "📸";
+        stepsHeading.textContent = "Steps to Download Instagram Stories";
+    } else {
+        document.getElementById("tabReels").classList.add("active");
+        heroTitle.innerHTML = 'Instagram Reels <br><span class="gradient-text">Download HD</span>';
+        heroSubtitle.textContent = "Download Instagram reels video in High Quality with our user-friendly tool. Save your favorite videos in seconds — no app required.";
+        cardTitle.textContent = "Paste Your Link";
+        cardSubtitle.textContent = "Enter a supported Instagram URL below.";
+        urlInput.placeholder = "Paste link here...";
+        headingIcon.textContent = "▶";
+        stepsHeading.textContent = "Steps to Download Reels From Instagram";
+    }
+}
+
 
 // Download Again Button Handler
 function resetDownloaderUI() {
