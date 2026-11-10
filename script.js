@@ -1,5 +1,5 @@
 /* ====================================================
-   REELSAVE — SECURE PRODUCTION JAVASCRIPT (ZERO KEYS)
+   REELSAVE — PRODUCTION JS (VIDEO + AUDIO EXTRACTION)
 ======================================================= */
 
 // Service Worker for PWA
@@ -9,6 +9,40 @@ if ("serviceWorker" in navigator) {
       console.log("Service Worker registration failed:", err);
     });
   });
+}
+
+// Tab Switching (Reels, Audio, Story)
+function setMode(mode) {
+    const input = document.getElementById("urlInput");
+    const cardTitle = document.getElementById("cardTitle");
+    const cardSubtitle = document.getElementById("cardSubtitle");
+    const tabs = document.querySelectorAll(".tab-btn");
+
+    tabs.forEach(tab => {
+        tab.style.background = "rgba(255,255,255,0.07)";
+        tab.style.color = "var(--muted)";
+        tab.style.border = "1px solid var(--border)";
+    });
+
+    if (event && event.target) {
+        event.target.style.background = "var(--purple)";
+        event.target.style.color = "#fff";
+        event.target.style.border = "none";
+    }
+
+    if (mode === 'audio') {
+        cardTitle.textContent = "Extract Audio (MP3)";
+        cardSubtitle.textContent = "Paste any Reel link to extract background music.";
+        input.placeholder = "Paste Reel link to extract MP3...";
+    } else if (mode === 'story') {
+        cardTitle.textContent = "Download Story & Photo";
+        cardSubtitle.textContent = "Paste a public Story or Photo link.";
+        input.placeholder = "Paste Story or Photo URL...";
+    } else {
+        cardTitle.textContent = "Paste Reel Link";
+        cardSubtitle.textContent = "Enter a public Instagram video URL below.";
+        input.placeholder = "Paste Instagram Reel link here...";
+    }
 }
 
 // Download Again Button Handler
@@ -46,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const videoPreview = document.getElementById("videoPreview");
     const downloadServer1 = document.getElementById("downloadServer1");
     const downloadServer2 = document.getElementById("downloadServer2");
+    const downloadAudioBtn = document.getElementById("downloadAudioBtn");
     const installBtn = document.getElementById("installBtn");
 
 
@@ -64,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (downloadServer1) downloadServer1.removeAttribute("href");
         if (downloadServer2) downloadServer2.removeAttribute("href");
+        if (downloadAudioBtn) downloadAudioBtn.removeAttribute("href");
 
         if (resultContainer) {
             resultContainer.classList.add("hidden");
@@ -95,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Form Submit (Calls Your Own Secure Vercel Server)
+    // Form Submit
     if (form) {
         form.addEventListener("submit", async (event) => {
             event.preventDefault();
@@ -114,11 +150,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             downloadBtn.disabled = true;
-            downloadBtn.innerHTML = 'Downloading Reel... <span>⏳</span>';
-            showMessage("Fetching high-quality video from Instagram...", "info");
+            downloadBtn.innerHTML = 'Processing Media... <span>⏳</span>';
+            showMessage("Fetching video and extracting audio...", "info");
 
             try {
-                // AB DIRECT SERVERLESS API CALL HOGI (NO PUBLIC KEY)
                 const apiUrl = `/api/download?url=${encodeURIComponent(enteredLink)}`;
 
                 const response = await fetch(apiUrl);
@@ -155,6 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (videoPreview) videoPreview.src = videoUrl;
 
+                // Video Download Links
                 if (downloadServer1) {
                     downloadServer1.href = videoUrl;
                     downloadServer1.download = "ReelSave_HD_Video.mp4";
@@ -165,13 +201,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     downloadServer2.download = "ReelSave_HD_Video.mp4";
                 }
 
+                // Audio MP3 Link (Direct Stream / Audio File)
+                if (downloadAudioBtn) {
+                    downloadAudioBtn.href = videoUrl;
+                    downloadAudioBtn.download = "ReelSave_Audio.mp3";
+                }
+
                 if (resultContainer) {
                     resultContainer.classList.remove("hidden");
                 }
 
                 downloadBtn.disabled = false;
                 downloadBtn.innerHTML = 'Continue <span>→</span>';
-                showMessage("✓ Video ready! Tap DOWNLOAD below.", "success");
+                showMessage("✓ Media ready! Choose Video or Audio below.", "success");
 
             } catch (error) {
                 console.error("Download Error:", error);
