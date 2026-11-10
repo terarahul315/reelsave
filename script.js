@@ -1,4 +1,8 @@
-// Register Service Worker for PWA / Chrome Install
+/* ====================================================
+   REELSAVE — SECURE PRODUCTION JAVASCRIPT (ZERO KEYS)
+======================================================= */
+
+// Service Worker for PWA
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./sw.js").catch((err) => {
@@ -7,11 +11,7 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-/* ====================================================
-   REELSAVE — FINAL MATCHED JAVASCRIPT (SERVER 1 & 2)
-======================================================= */
-
-// Download Again Button Handler (Global Scope)
+// Download Again Button Handler
 function resetDownloaderUI() {
     const urlInput = document.getElementById("urlInput");
     const resultContainer = document.getElementById("resultContainer");
@@ -36,10 +36,6 @@ function resetDownloaderUI() {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // EXACT WORKING API DETAILS
-    const RAPID_API_KEY  = "c226f9c559msh6075143f957b67cp1c488cjsn50c46061a4cb"; 
-    const RAPID_API_HOST = "instagram-downloader-scraper-reels-igtv-posts-stories.p.rapidapi.com";
-
     const form = document.getElementById("downloadForm");
     const urlInput = document.getElementById("urlInput");
     const pasteBtn = document.getElementById("pasteBtn");
@@ -53,19 +49,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const installBtn = document.getElementById("installBtn");
 
 
-    /* --------------------------
-       SHOW MESSAGE
-    -------------------------- */
     function showMessage(text, type = "info") {
         if (!message) return;
         message.textContent = text;
         message.className = "message " + type;
     }
 
-
-    /* --------------------------
-       RESET VIDEO RESULT
-    -------------------------- */
     function resetResult() {
         if (videoPreview) {
             videoPreview.pause();
@@ -81,10 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-
-    /* --------------------------
-       PASTE BUTTON
-    -------------------------- */
+    // Paste Button
     if (pasteBtn) {
         pasteBtn.addEventListener("click", async () => {
             try {
@@ -109,10 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
-    /* --------------------------
-       FORM SUBMISSION (LIVE API CALL)
-    -------------------------- */
+    // Form Submit (Calls Your Own Secure Vercel Server)
     if (form) {
         form.addEventListener("submit", async (event) => {
             event.preventDefault();
@@ -130,29 +113,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Loading State
             downloadBtn.disabled = true;
             downloadBtn.innerHTML = 'Downloading Reel... <span>⏳</span>';
             showMessage("Fetching high-quality video from Instagram...", "info");
 
             try {
-                const apiUrl = `https://${RAPID_API_HOST}/scraper?url=${encodeURIComponent(enteredLink)}`;
+                // AB DIRECT SERVERLESS API CALL HOGI (NO PUBLIC KEY)
+                const apiUrl = `/api/download?url=${encodeURIComponent(enteredLink)}`;
 
-                const response = await fetch(apiUrl, {
-                    method: "GET",
-                    headers: {
-                        "x-rapidapi-key": RAPID_API_KEY,
-                        "x-rapidapi-host": RAPID_API_HOST
-                    }
-                });
-
+                const response = await fetch(apiUrl);
                 const data = await response.json();
 
-                if (data.message) {
-                    throw new Error(data.message);
+                if (data.error || data.message) {
+                    throw new Error(data.error || data.message);
                 }
 
-                // Video link extract karna (data.data[0] se)
                 let videoUrl = null;
 
                 if (data.data && Array.isArray(data.data) && data.data.length > 0) {
@@ -178,10 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     throw new Error("Video link not found. Please verify the Reel is from a public account.");
                 }
 
-                // Dono Server Buttons aur Player me Link set karein (No Null Error)
-                if (videoPreview) {
-                    videoPreview.src = videoUrl;
-                }
+                if (videoPreview) videoPreview.src = videoUrl;
 
                 if (downloadServer1) {
                     downloadServer1.href = videoUrl;
@@ -212,12 +184,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
-    /* --------------------------
-       FAQ ACCORDION
-    -------------------------- */
+    // FAQ Accordion
     const faqButtons = document.querySelectorAll(".faq-toggle");
-
     faqButtons.forEach((button) => {
         button.addEventListener("click", () => {
             const currentCard = button.closest(".faq-card");
@@ -236,12 +204,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-
-    /* --------------------------
-       PWA INSTALL BUTTON
-    -------------------------- */
+    // PWA Install Prompt
     let deferredInstallPrompt = null;
-
     window.addEventListener("beforeinstallprompt", (event) => {
         event.preventDefault();
         deferredInstallPrompt = event;
@@ -263,10 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showMessage("ReelSave has been installed.", "success");
     });
 
-
-    /* --------------------------
-       INPUT CHANGE
-    -------------------------- */
+    // Input Change
     if (urlInput) {
         urlInput.addEventListener("input", () => {
             if (message && message.textContent) {
