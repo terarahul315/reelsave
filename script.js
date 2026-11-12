@@ -1,8 +1,7 @@
 /* ====================================================
-   REELSAVE — PRODUCTION JS (VIDEO + AUDIO EXTRACTION)
+   REELSAVE — PRO JS (CAPTION COPY + RECENT HISTORY)
 ======================================================= */
 
-// Service Worker for PWA
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./sw.js").catch((err) => {
@@ -11,40 +10,6 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-// Tab Switching (Reels, Audio, Story)
-function setMode(mode) {
-    const input = document.getElementById("urlInput");
-    const cardTitle = document.getElementById("cardTitle");
-    const cardSubtitle = document.getElementById("cardSubtitle");
-    const tabs = document.querySelectorAll(".tab-btn");
-
-    tabs.forEach(tab => {
-        tab.style.background = "rgba(255,255,255,0.07)";
-        tab.style.color = "var(--muted)";
-        tab.style.border = "1px solid var(--border)";
-    });
-
-    if (event && event.target) {
-        event.target.style.background = "var(--purple)";
-        event.target.style.color = "#fff";
-        event.target.style.border = "none";
-    }
-
-    if (mode === 'audio') {
-        cardTitle.textContent = "Extract Audio (MP3)";
-        cardSubtitle.textContent = "Paste any Reel link to extract background music.";
-        input.placeholder = "Paste Reel link to extract MP3...";
-    } else if (mode === 'story') {
-        cardTitle.textContent = "Download Story & Photo";
-        cardSubtitle.textContent = "Paste a public Story or Photo link.";
-        input.placeholder = "Paste Story or Photo URL...";
-    } else {
-        cardTitle.textContent = "Paste Reel Link";
-        cardSubtitle.textContent = "Enter a public Instagram video URL below.";
-        input.placeholder = "Paste Instagram Reel link here...";
-    }
-}
-// Dynamic Category Switcher (Reels, Audio, Story)
 function switchCategory(type) {
     const heroTitle = document.getElementById("heroTitle");
     const heroSubtitle = document.getElementById("heroSubtitle");
@@ -54,47 +19,45 @@ function switchCategory(type) {
     const headingIcon = document.getElementById("headingIcon");
     const stepsHeading = document.getElementById("stepsHeading");
 
-    // Reset tab active states
     document.querySelectorAll(".tab-chip").forEach(t => t.classList.remove("active"));
     document.querySelectorAll(".nav-icon-circle").forEach(i => i.classList.remove("active"));
 
     if (type === 'audio') {
-        document.getElementById("tabAudio").classList.add("active");
-        heroTitle.innerHTML = 'Instagram Audio <br><span class="gradient-text">Downloader (MP3)</span>';
-        heroSubtitle.textContent = "Turn any Instagram reel into a high quality MP3 audio. Paste the link and save trending songs and voice-overs offline.";
-        cardTitle.textContent = "Paste Reel Link for Audio";
-        cardSubtitle.textContent = "Extract and download background music in 320kbps.";
-        urlInput.placeholder = "Paste Reel link to extract MP3...";
-        headingIcon.textContent = "🎵";
-        stepsHeading.textContent = "Steps to Download Instagram Audio";
+        document.getElementById("tabAudio")?.classList.add("active");
+        if (heroTitle) heroTitle.innerHTML = 'Instagram Audio <br><span class="gradient-text">Downloader (MP3)</span>';
+        if (heroSubtitle) heroSubtitle.textContent = "Turn any Instagram reel into a high quality MP3 audio. Paste the link and save trending songs offline.";
+        if (cardTitle) cardTitle.textContent = "Paste Reel Link for Audio";
+        if (cardSubtitle) cardSubtitle.textContent = "Extract and download background music.";
+        if (urlInput) urlInput.placeholder = "Paste Reel link to extract MP3...";
+        if (headingIcon) headingIcon.textContent = "🎵";
+        if (stepsHeading) stepsHeading.textContent = "Steps to Download Instagram Audio";
     } else if (type === 'story') {
-        document.getElementById("tabStory").classList.add("active");
-        heroTitle.innerHTML = 'Instagram Story & Photo <br><span class="gradient-text">Downloader HD</span>';
-        heroSubtitle.textContent = "Download Instagram stories, highlights, and full-resolution photos directly to your device without watermark.";
-        cardTitle.textContent = "Paste Story or Photo Link";
-        cardSubtitle.textContent = "Enter public story or post URL below.";
-        urlInput.placeholder = "Paste Story or Photo link here...";
-        headingIcon.textContent = "📸";
-        stepsHeading.textContent = "Steps to Download Instagram Stories";
+        document.getElementById("tabStory")?.classList.add("active");
+        if (heroTitle) heroTitle.innerHTML = 'Instagram Story & Photo <br><span class="gradient-text">Downloader HD</span>';
+        if (heroSubtitle) heroSubtitle.textContent = "Download Instagram stories, highlights, and full-resolution photos directly to your device without watermark.";
+        if (cardTitle) cardTitle.textContent = "Paste Story or Photo Link";
+        if (cardSubtitle) cardSubtitle.textContent = "Enter public story or post URL below.";
+        if (urlInput) urlInput.placeholder = "Paste Story or Photo link here...";
+        if (headingIcon) headingIcon.textContent = "📸";
+        if (stepsHeading) stepsHeading.textContent = "Steps to Download Instagram Stories";
     } else {
-        document.getElementById("tabReels").classList.add("active");
-        heroTitle.innerHTML = 'Instagram Reels <br><span class="gradient-text">Download HD</span>';
-        heroSubtitle.textContent = "Download Instagram reels video in High Quality with our user-friendly tool. Save your favorite videos in seconds — no app required.";
-        cardTitle.textContent = "Paste Your Link";
-        cardSubtitle.textContent = "Enter a supported Instagram URL below.";
-        urlInput.placeholder = "Paste link here...";
-        headingIcon.textContent = "▶";
-        stepsHeading.textContent = "Steps to Download Reels From Instagram";
+        document.getElementById("tabReels")?.classList.add("active");
+        if (heroTitle) heroTitle.innerHTML = 'Instagram Reels <br><span class="gradient-text">Download HD</span>';
+        if (heroSubtitle) heroSubtitle.textContent = "Download Instagram reels video in High Quality with our user-friendly tool. Save your favorite videos in seconds — no app required.";
+        if (cardTitle) cardTitle.textContent = "Paste Your Link";
+        if (cardSubtitle) cardSubtitle.textContent = "Enter a supported Instagram URL below.";
+        if (urlInput) urlInput.placeholder = "Paste link here...";
+        if (headingIcon) headingIcon.textContent = "▶";
+        if (stepsHeading) stepsHeading.textContent = "Steps to Download Reels From Instagram";
     }
 }
 
-
-// Download Again Button Handler
 function resetDownloaderUI() {
     const urlInput = document.getElementById("urlInput");
     const resultContainer = document.getElementById("resultContainer");
     const videoPreview = document.getElementById("videoPreview");
     const message = document.getElementById("message");
+    const captionBox = document.getElementById("dynamicCaptionBox");
 
     if (urlInput) urlInput.value = "";
     if (videoPreview) {
@@ -102,12 +65,12 @@ function resetDownloaderUI() {
         videoPreview.removeAttribute("src");
         videoPreview.load();
     }
+    if (captionBox) captionBox.remove();
     if (resultContainer) resultContainer.classList.add("hidden");
     if (message) {
         message.textContent = "";
         message.className = "message";
     }
-
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -119,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const pasteBtn = document.getElementById("pasteBtn");
     const downloadBtn = document.getElementById("downloadBtn");
     const message = document.getElementById("message");
+    const downloaderCard = document.querySelector(".downloader-card");
 
     const resultContainer = document.getElementById("resultContainer");
     const videoPreview = document.getElementById("videoPreview");
@@ -140,34 +104,91 @@ document.addEventListener("DOMContentLoaded", () => {
             videoPreview.removeAttribute("src");
             videoPreview.load();
         }
+        const captionBox = document.getElementById("dynamicCaptionBox");
+        if (captionBox) captionBox.remove();
 
         if (downloadServer1) downloadServer1.removeAttribute("href");
         if (downloadServer2) downloadServer2.removeAttribute("href");
         if (downloadAudioBtn) downloadAudioBtn.removeAttribute("href");
-
-        if (resultContainer) {
-            resultContainer.classList.add("hidden");
-        }
+        if (resultContainer) resultContainer.classList.add("hidden");
     }
 
-    // Paste Button
+    // RECENT DOWNLOADS HISTORY (LOCALSTORAGE)
+    function saveToHistory(url) {
+        try {
+            let history = JSON.parse(localStorage.getItem("reelsave_history") || "[]");
+            history = history.filter(item => item !== url);
+            history.unshift(url);
+            history = history.slice(0, 5);
+            localStorage.setItem("reelsave_history", JSON.stringify(history));
+            renderHistory();
+        } catch (e) {}
+    }
+
+    function renderHistory() {
+        const existing = document.getElementById("recentHistoryBox");
+        if (existing) existing.remove();
+
+        let history = [];
+        try {
+            history = JSON.parse(localStorage.getItem("reelsave_history") || "[]");
+        } catch (e) {}
+
+        if (!history.length || !downloaderCard) return;
+
+        const box = document.createElement("div");
+        box.id = "recentHistoryBox";
+        box.className = "recent-history-box";
+
+        box.innerHTML = `
+            <div class="recent-header">
+                <span>🕒 Recent Links</span>
+                <button type="button" class="recent-clear-btn" id="clearHistoryBtn">Clear</button>
+            </div>
+            <div class="recent-list">
+                ${history.map(link => `
+                    <div class="recent-item">
+                        <span class="recent-url">${link}</span>
+                        <button type="button" class="recent-reload-btn" data-url="${link}">Load</button>
+                    </div>
+                `).join("")}
+            </div>
+        `;
+
+        downloaderCard.insertAdjacentElement("afterend", box);
+
+        document.getElementById("clearHistoryBtn").addEventListener("click", () => {
+            localStorage.removeItem("reelsave_history");
+            box.remove();
+        });
+
+        box.querySelectorAll(".recent-reload-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                if (urlInput) {
+                    urlInput.value = btn.getAttribute("data-url");
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    form.dispatchEvent(new Event("submit", { cancelable: true }));
+                }
+            });
+        });
+    }
+
+    renderHistory();
+
+    // PASTE BUTTON
     if (pasteBtn) {
         pasteBtn.addEventListener("click", async () => {
             try {
                 if (!navigator.clipboard || !navigator.clipboard.readText) {
                     throw new Error("Clipboard unavailable");
                 }
-
                 const copiedText = await navigator.clipboard.readText();
-
                 if (!copiedText.trim()) {
                     showMessage("Your clipboard is empty.", "error");
                     return;
                 }
-
                 urlInput.value = copiedText.trim();
                 showMessage("Link pasted successfully.", "success");
-
             } catch (error) {
                 showMessage("Please paste your link manually.", "error");
                 urlInput.focus();
@@ -175,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Form Submit
+    // FORM SUBMIT
     if (form) {
         form.addEventListener("submit", async (event) => {
             event.preventDefault();
@@ -184,10 +205,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const enteredLink = urlInput.value.trim();
 
             if (!enteredLink) {
-                showMessage("Please enter an Instagram Reel link.", "error");
+                showMessage("Please enter an Instagram link.", "error");
                 return;
             }
-
             if (!enteredLink.includes("instagram.com")) {
                 showMessage("Please enter a valid Instagram URL.", "error");
                 return;
@@ -199,7 +219,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 const apiUrl = `/api/download?url=${encodeURIComponent(enteredLink)}`;
-
                 const response = await fetch(apiUrl);
                 const data = await response.json();
 
@@ -208,9 +227,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 let videoUrl = null;
+                let captionText = "";
 
                 if (data.data && Array.isArray(data.data) && data.data.length > 0) {
                     const firstItem = data.data[0];
+                    captionText = firstItem.caption || firstItem.title || firstItem.description || "";
                     for (const key in firstItem) {
                         if (typeof firstItem[key] === "string" && firstItem[key].startsWith("http")) {
                             videoUrl = firstItem[key];
@@ -218,6 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     }
                 } else if (data.data && typeof data.data === "object") {
+                    captionText = data.data.caption || data.data.title || "";
                     for (const key in data.data) {
                         if (typeof data.data[key] === "string" && data.data[key].startsWith("http")) {
                             videoUrl = data.data[key];
@@ -225,54 +247,73 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     }
                 } else if (data.url || data.video_url || data.media) {
+                    captionText = data.caption || data.title || "";
                     videoUrl = data.url || data.video_url || data.media;
                 }
 
                 if (!videoUrl) {
-                    throw new Error("Video link not found. Please verify the Reel is from a public account.");
+                    throw new Error("Video link not found. Please verify the post is from a public account.");
                 }
 
                 if (videoPreview) videoPreview.src = videoUrl;
-
-                // Video Download Links
                 if (downloadServer1) {
                     downloadServer1.href = videoUrl;
                     downloadServer1.download = "ReelSave_HD_Video.mp4";
                 }
-
                 if (downloadServer2) {
                     downloadServer2.href = videoUrl;
                     downloadServer2.download = "ReelSave_HD_Video.mp4";
                 }
-
-                // Audio MP3 Link (Direct Stream / Audio File)
                 if (downloadAudioBtn) {
                     downloadAudioBtn.href = videoUrl;
                     downloadAudioBtn.download = "ReelSave_Audio.mp3";
                 }
 
-                if (resultContainer) {
-                    resultContainer.classList.remove("hidden");
+                // CAPTION & HASHTAGS BOX (IF AVAILABLE)
+                if (captionText && resultContainer) {
+                    const capDiv = document.createElement("div");
+                    capDiv.id = "dynamicCaptionBox";
+                    capDiv.className = "caption-box";
+                    capDiv.innerHTML = `
+                        <div class="caption-header">
+                            <span>📝 Caption & Hashtags</span>
+                            <button type="button" class="btn-copy-caption" id="copyCapBtn">Copy</button>
+                        </div>
+                        <div class="caption-text" id="capTextContent"></div>
+                    `;
+                    capDiv.querySelector("#capTextContent").textContent = captionText;
+                    resultContainer.appendChild(capDiv);
+
+                    capDiv.querySelector("#copyCapBtn").addEventListener("click", async () => {
+                        try {
+                            await navigator.clipboard.writeText(captionText);
+                            capDiv.querySelector("#copyCapBtn").textContent = "Copied!";
+                            setTimeout(() => {
+                                capDiv.querySelector("#copyCapBtn").textContent = "Copy";
+                            }, 1800);
+                        } catch (e) {}
+                    });
                 }
 
+                if (resultContainer) resultContainer.classList.remove("hidden");
+                saveToHistory(enteredLink);
+
                 downloadBtn.disabled = false;
-                downloadBtn.innerHTML = 'Continue <span>→</span>';
+                downloadBtn.innerHTML = 'Get Video <span>→</span>';
                 showMessage("✓ Media ready! Choose Video or Audio below.", "success");
 
             } catch (error) {
                 console.error("Download Error:", error);
                 downloadBtn.disabled = false;
-                downloadBtn.innerHTML = 'Continue <span>→</span>';
+                downloadBtn.innerHTML = 'Get Video <span>→</span>';
                 resetResult();
-
                 showMessage("Error: " + error.message, "error");
             }
         });
     }
 
-    // FAQ Accordion
-    const faqButtons = document.querySelectorAll(".faq-toggle");
-    faqButtons.forEach((button) => {
+    // FAQ ACCORDION
+    document.querySelectorAll(".faq-toggle").forEach((button) => {
         button.addEventListener("click", () => {
             const currentCard = button.closest(".faq-card");
             const isAlreadyOpen = currentCard.classList.contains("active");
@@ -290,7 +331,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // PWA Install Prompt
+    // PWA INSTALL
     let deferredInstallPrompt = null;
     window.addEventListener("beforeinstallprompt", (event) => {
         event.preventDefault();
@@ -313,7 +354,6 @@ document.addEventListener("DOMContentLoaded", () => {
         showMessage("ReelSave has been installed.", "success");
     });
 
-    // Input Change
     if (urlInput) {
         urlInput.addEventListener("input", () => {
             if (message && message.textContent) {
