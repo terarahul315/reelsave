@@ -1,0 +1,14 @@
+# ReelSave
+
+> Free, mobile-first Progressive Web App (PWA) to download public Instagram Reels in HD, extract MP3 audio, and save public Stories & Carousels with zero login.
+
+## Core Tools & Pages
+- [Instagram Reels Downloader](https://reelsave-rouge.vercel.app/)
+- [Instagram Audio / MP3 Extractor](https://reelsave-rouge.vercel.app/instagram-audio-downloader.html)
+- [Instagram Story & Carousel Saver](https://reelsave-rouge.vercel.app/instagram-story-saver.html)
+- [Instagram Reel Download Guide (Hindi)](https://reelsave-rouge.vercel.app/instagram-reel-download-hindi.html)
+
+## Legal & Contact
+- [Privacy Policy](https://reelsave-rouge.vercel.app/privacy.html)
+- [Terms of Service](https://reelsave-rouge.vercel.app/terms.html)
+- [Contact](https://reelsave-rouge.vercel.app/contact.html)
